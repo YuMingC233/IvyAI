@@ -21,7 +21,7 @@ plugins {
 }
 
 android {
-  namespace = "com.skydoves.chatgpt.core.navigation"
+  namespace = "com.skydovesxyh.ivyai.core.navigation"
 }
 
 dependencies {

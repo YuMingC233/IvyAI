@@ -2,7 +2,7 @@ plugins {
     `kotlin-dsl`
 }
 
-group = "com.skydoves.chatgpt.buildlogic"
+group = "com.skydovesxyh.ivyai.buildlogic"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17

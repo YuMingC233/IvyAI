@@ -21,7 +21,7 @@ plugins {
 }
 
 android {
-  namespace = "com.skydoves.chatgpt.benchmark"
+  namespace = "com.skydovesxyh.ivyai.benchmark"
   compileSdk = Configurations.compileSdk
 
   defaultConfig {

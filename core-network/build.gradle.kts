@@ -22,7 +22,7 @@ plugins {
 }
 
 android {
-  namespace = "com.skydoves.chatgpt.core.network"
+  namespace = "com.skydovesxyh.ivyai.core.network"
 
   buildFeatures {
     buildConfig = true

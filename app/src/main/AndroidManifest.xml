@@ -49,11 +49,11 @@
 
     <provider
       android:name="androidx.startup.InitializationProvider"
-      android:authorities="com.skydoves.chatgpt.androidx-startup"
+      android:authorities="com.skydovesxyh.ivyai.androidx-startup"
       android:exported="false"
       tools:node="merge">
       <meta-data
-        android:name="com.skydoves.chatgpt.initializer.AppInitializer"
+        android:name="com.skydovesxyh.ivyai.initializer.AppInitializer"
         android:value="androidx.startup" />
     </provider>
   </application>

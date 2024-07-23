@@ -38,11 +38,11 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-  namespace = "com.skydoves.chatgpt"
+  namespace = "com.skydovesxyh.ivyai"
   compileSdk = Configurations.compileSdk
 
   defaultConfig {
-    applicationId = "com.skydoves.chatgpt"
+    applicationId = "com.skydovesxyh.ivyai"
     minSdk = Configurations.minSdk
     targetSdk = Configurations.targetSdk
     versionCode = Configurations.versionCode
@@ -80,6 +80,10 @@ android {
       isDebuggable = false
       proguardFiles("benchmark-rules.pro")
     }
+  }
+
+  buildFeatures {
+    buildConfig = true
   }
 }
 

@@ -22,7 +22,7 @@ plugins {
 }
 
 android {
-  namespace = "com.skydoves.chatgpt.feature.login"
+  namespace = "com.skydovesxyh.ivyai.feature.login"
 }
 
 dependencies {

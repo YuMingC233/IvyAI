@@ -20,7 +20,7 @@ plugins {
 }
 
 android {
-  namespace = "com.skydoves.chatgpt.core.designsystem"
+  namespace = "com.skydovesxyh.ivyai.core.designsystem"
 }
 
 dependencies {

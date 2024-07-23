@@ -25,7 +25,7 @@ plugins {
 }
 
 android {
-  namespace = "com.skydoves.chatgpt.feature.chat"
+  namespace = "com.skydovesxyh.ivyai.feature.chat"
 
   buildFeatures {
     buildConfig = true

@@ -21,7 +21,7 @@ plugins {
 }
 
 android {
-  namespace = "com.skydoves.chatgpt.core.model"
+  namespace = "com.skydovesxyh.ivyai.core.model"
 }
 
 dependencies {
