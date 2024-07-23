@@ -61,7 +61,8 @@ internal object NetworkModule {
   fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
     return Retrofit.Builder()
       .client(okHttpClient)
-      .baseUrl("https://api.openai.com/")
+//      .baseUrl("https://api.openai.com/")
+      .baseUrl("https://api.gpt.ge/")
       .addConverterFactory(MoshiConverterFactory.create())
       .addCallAdapterFactory(ApiResponseCallAdapterFactory.create())
       .build()

@@ -95,16 +95,23 @@ class ChatGPTMessagesViewModel @Inject constructor(
 
       val workInfo = workManager.getWorkInfoByIdLiveData(workRequest.id)
       workInfo.observe(viewModelLifecycleOwner) {
-        if (it.state == WorkInfo.State.SUCCEEDED) {
-          val gptMessageText = it.outputData.getString(DATA_SUCCESS)
-          val gptMessageId = it.outputData.getString(DATA_MESSAGE_ID)
-          streamLog { "gpt message worker success: $gptMessageId $gptMessageText" }
-          messageItemSet.value -= text
-        } else if (it.state == WorkInfo.State.FAILED) {
-          val error = it.outputData.getString(DATA_FAILURE) ?: ""
-          streamLog { "gpt message worker failed: $error" }
-          messageItemSet.value -= messageItemSet.value
-          mutableError.value = error
+        try {
+          // 添加日志，确认workInfo和viewModelLifecycleOwner的状态
+          streamLog {"Observing workInfo: $workInfo"}
+          streamLog { "Using LifecycleOwner: $viewModelLifecycleOwner"}
+          if (it.state == WorkInfo.State.SUCCEEDED) {
+            val gptMessageText = it.outputData.getString(DATA_SUCCESS)
+            val gptMessageId = it.outputData.getString(DATA_MESSAGE_ID)
+            streamLog { "gpt message worker success: $gptMessageId $gptMessageText" }
+            messageItemSet.value -= text
+          } else if (it.state == WorkInfo.State.FAILED) {
+            val error = it.outputData.getString(DATA_FAILURE) ?: ""
+            streamLog { "gpt message worker failed: $error" }
+            messageItemSet.value -= messageItemSet.value
+            mutableError.value = error
+          }
+        } catch (e: Exception){
+          streamLog { "Exception while observing workInfo${e.message}" }
         }
       }
     }

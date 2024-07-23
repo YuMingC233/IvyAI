@@ -58,7 +58,7 @@ internal class ChatGPTMessageWorker @AssistedInject constructor(
     if (lastMessage != null) {
       messages.add(
         GPTMessage(
-          role = "system",
+          role = "assistant",
           content = lastMessage
         )
       )
@@ -71,7 +71,7 @@ internal class ChatGPTMessageWorker @AssistedInject constructor(
     )
 
     val request = GPTChatRequest(
-      model = "gpt-3.5-turbo-0125",
+      model = "gpt-4o-mini",
       messages = messages
     )
     val response = repository.sendMessage(request)
