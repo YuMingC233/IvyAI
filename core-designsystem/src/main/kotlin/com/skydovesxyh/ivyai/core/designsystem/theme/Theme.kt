@@ -30,7 +30,8 @@ private val DarkChatGPTColorScheme = darkColorScheme(
   secondary = STREAM_PRIMARY,
   background = STREAM_PRIMARY,
   tertiary = WHITE200,
-  onTertiary = GRAY200
+  onTertiary = GRAY200,
+
 )
 
 private val LightChatGPTColorScheme = lightColorScheme(

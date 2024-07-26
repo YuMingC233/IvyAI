@@ -14,25 +14,25 @@
  * limitations under the License.
  */
 
-package com.skydovesxyh.ivyai.navigation
+package com.skydovesxyh.ivyai.feature.login
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import com.skydovesxyh.ivyai.core.navigation.AppComposeNavigator
-import com.skydovesxyh.ivyai.core.navigation.ChatGPTScreens
+import androidx.compose.ui.Modifier
+import com.skydovesxyh.ivyai.core.designsystem.theme.BACKGROUND900
 
 @Composable
-fun ChatGPTNavHost(
-  navHostController: NavHostController,
-  composeNavigator: AppComposeNavigator
+fun ChatGPTLogin(
 ) {
-  NavHost(
-    navController = navHostController,
-    startDestination = ChatGPTScreens.Login.route
+  Box(
+    modifier = Modifier
+      .fillMaxSize()
+      .background(BACKGROUND900)
+
   ) {
-    chatGPTHomeNavigation(
-      composeNavigator = composeNavigator
-    )
+    Text(text = "我的页面")
   }
 }

@@ -17,50 +17,51 @@
 package com.skydovesxyh.ivyai.navigation
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.ripple.LocalRippleTheme
+import androidx.compose.material.ripple.RippleAlpha
+import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
 import com.skydovesxyh.ivyai.R
 import com.skydovesxyh.ivyai.core.designsystem.component.ChatGPTSmallTopBar
 import com.skydovesxyh.ivyai.core.navigation.AppComposeNavigator
 import com.skydovesxyh.ivyai.core.navigation.ChatGPTScreens
-import com.skydovesxyh.ivyai.core.navigation.ChatGPTScreens.Companion.argument_channel_id
 import com.skydovesxyh.ivyai.feature.chat.channels.ChatGPTChannels
-import com.skydovesxyh.ivyai.feature.chat.messages.ChatGPTMessages
-import com.skydovesxyh.ivyai.feature.login.ChatGPTLogin
 
-fun NavGraphBuilder.chatGPTHomeNavigation(
+@Composable
+fun IvyNavHost(
+  navHostController: NavHostController,
   composeNavigator: AppComposeNavigator
 ) {
-  composable(route = ChatGPTScreens.Login.name) {
-    ChatGPTLogin(composeNavigator = composeNavigator)
-  }
-
-  composable(route = ChatGPTScreens.Channels.name) {
-    Scaffold(topBar = {
+  Scaffold(
+    /**
+    topBar = {
       ChatGPTSmallTopBar(
         title = stringResource(id = R.string.app_name)
       )
-    }) { padding ->
-      ChatGPTChannels(
-        modifier = Modifier.padding(padding),
+    },
+     */
+    bottomBar = {
+      /**
+       * 自定义LocalRippleTheme行为覆盖Navigation的默认点击特效
+       */
+      BottomNavigationBar(navHostController)
+    }
+  ) { padding ->
+    NavHost(
+      navController = navHostController,
+      startDestination = ChatGPTScreens.Channels.route,
+      modifier = Modifier.padding(padding)
+    ) {
+      ivyHomeNavigation(
         composeNavigator = composeNavigator
       )
     }
-  }
-
-  composable(
-    route = ChatGPTScreens.Messages.name,
-    arguments = ChatGPTScreens.Messages.navArguments
-  ) {
-    val channelId = it.arguments?.getString(argument_channel_id) ?: return@composable
-    ChatGPTMessages(
-      channelId = channelId,
-      composeNavigator = composeNavigator,
-      viewModel = hiltViewModel()
-    )
   }
 }

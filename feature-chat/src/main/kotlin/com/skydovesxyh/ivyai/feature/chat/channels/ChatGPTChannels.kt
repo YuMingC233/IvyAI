@@ -52,6 +52,7 @@ import com.skydovesxyh.ivyai.core.navigation.AppComposeNavigator
 import com.skydovesxyh.ivyai.core.navigation.ChatGPTScreens
 import com.skydovesxyh.ivyai.feature.chat.R
 import com.skydovesxyh.ivyai.feature.chat.theme.ChatGPTStreamTheme
+import io.getstream.chat.android.client.ChatClient
 import io.getstream.chat.android.compose.ui.channels.ChannelsScreen
 
 @Composable
@@ -61,6 +62,8 @@ fun ChatGPTChannels(
   viewModel: ChatGPTChannelsViewModel = hiltViewModel(),
   onFinishDispatcher: (() -> Unit)? = LocalOnFinishDispatcher.current
 ) {
+  ChatClient.instance().clientState.initializationState.collectAsStateWithLifecycle()
+
   val uiState by viewModel.channelUiState.collectAsStateWithLifecycle()
 
   HandleGPTChannelsUiState(uiState = uiState)
@@ -92,7 +95,7 @@ fun ChatGPTChannels(
             modifier = Modifier
               .padding(12.dp)
               .fillMaxWidth(),
-            text = "You can add your ChatGPT channel!",
+            text = "你可以手动添加一个新的会话…",
             textAlign = TextAlign.Center,
             color = Color.White
           )

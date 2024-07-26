@@ -22,7 +22,7 @@ import androidx.navigation.compose.rememberNavController
 import com.skydovesxyh.ivyai.core.designsystem.component.ChatGPTBackground
 import com.skydovesxyh.ivyai.core.designsystem.theme.ChatGPTComposeTheme
 import com.skydovesxyh.ivyai.core.navigation.AppComposeNavigator
-import com.skydovesxyh.ivyai.navigation.ChatGPTNavHost
+import com.skydovesxyh.ivyai.navigation.IvyNavHost
 
 @Composable
 fun ChatGPTMain(
@@ -36,7 +36,7 @@ fun ChatGPTMain(
     }
 
     ChatGPTBackground {
-      ChatGPTNavHost(navHostController = navHostController, composeNavigator = composeNavigator)
+      IvyNavHost(navHostController = navHostController, composeNavigator = composeNavigator)
     }
   }
 }
