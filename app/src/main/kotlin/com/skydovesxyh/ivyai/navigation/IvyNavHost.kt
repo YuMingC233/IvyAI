@@ -23,11 +23,13 @@ import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.skydovesxyh.ivyai.R
 import com.skydovesxyh.ivyai.core.designsystem.component.ChatGPTSmallTopBar
 import com.skydovesxyh.ivyai.core.navigation.AppComposeNavigator
@@ -39,6 +41,9 @@ fun IvyNavHost(
   navHostController: NavHostController,
   composeNavigator: AppComposeNavigator
 ) {
+  val navBackStackEntry by navHostController.currentBackStackEntryAsState()
+  val currentRoute = navBackStackEntry?.destination?.route
+
   Scaffold(
     /**
     topBar = {
@@ -51,7 +56,9 @@ fun IvyNavHost(
       /**
        * 自定义LocalRippleTheme行为覆盖Navigation的默认点击特效
        */
-      BottomNavigationBar(navHostController)
+      if (currentRoute == ChatGPTScreens.Channels.name || currentRoute == ChatGPTScreens.Login.name) {
+        BottomNavigationBar(navHostController)
+      }
     }
   ) { padding ->
     NavHost(
