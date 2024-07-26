@@ -82,7 +82,7 @@ class ChatGPTMessagesViewModel @Inject constructor(
     }
   }
 
-  fun sendMessage(text: String, messagesItems: List<MessageListItemState>) {
+  fun sendMessage(text: String, image_locations: Array<String?>, messagesItems: List<MessageListItemState>) {
     messageItemSet.value += text
     viewModelScope.launch {
       val lastGptMessage = messagesItems
@@ -90,28 +90,21 @@ class ChatGPTMessagesViewModel @Inject constructor(
         .filter { it.message.extraData[MESSAGE_EXTRA_CHAT_GPT] == true }
         .maxByOrNull { it.message.createdAt?.time ?: 0 }
         ?.message
-      val workRequest = buildGPTMessageWorkerRequest(text, lastGptMessage)
+      val workRequest = buildGPTMessageWorkerRequest(text, image_locations, lastGptMessage)
       workManager.enqueue(workRequest)
 
       val workInfo = workManager.getWorkInfoByIdLiveData(workRequest.id)
       workInfo.observe(viewModelLifecycleOwner) {
-        try {
-          // 添加日志，确认workInfo和viewModelLifecycleOwner的状态
-          streamLog {"Observing workInfo: $workInfo"}
-          streamLog { "Using LifecycleOwner: $viewModelLifecycleOwner"}
-          if (it.state == WorkInfo.State.SUCCEEDED) {
-            val gptMessageText = it.outputData.getString(DATA_SUCCESS)
-            val gptMessageId = it.outputData.getString(DATA_MESSAGE_ID)
-            streamLog { "gpt message worker success: $gptMessageId $gptMessageText" }
-            messageItemSet.value -= text
-          } else if (it.state == WorkInfo.State.FAILED) {
-            val error = it.outputData.getString(DATA_FAILURE) ?: ""
-            streamLog { "gpt message worker failed: $error" }
-            messageItemSet.value -= messageItemSet.value
-            mutableError.value = error
-          }
-        } catch (e: Exception){
-          streamLog { "Exception while observing workInfo${e.message}" }
+        if (it.state == WorkInfo.State.SUCCEEDED) {
+          val gptMessageText = it.outputData.getString(DATA_SUCCESS)
+          val gptMessageId = it.outputData.getString(DATA_MESSAGE_ID)
+          streamLog { "gpt message worker success: $gptMessageId $gptMessageText" }
+          messageItemSet.value -= text
+        } else if (it.state == WorkInfo.State.FAILED) {
+          val error = it.outputData.getString(DATA_FAILURE) ?: ""
+          streamLog { "gpt message worker failed: $error" }
+          messageItemSet.value -= messageItemSet.value
+          mutableError.value = error
         }
       }
     }
@@ -131,6 +124,7 @@ class ChatGPTMessagesViewModel @Inject constructor(
 
   private fun buildGPTMessageWorkerRequest(
     text: String,
+    image_locations: Array<String?>,
     lastMessage: Message?
   ): OneTimeWorkRequest {
     val constraints = Constraints.Builder()
@@ -139,6 +133,7 @@ class ChatGPTMessagesViewModel @Inject constructor(
 
     val data = Data.Builder()
       .putString(ChatGPTMessageWorker.DATA_TEXT, text)
+      .putStringArray(ChatGPTMessageWorker.DATA_IMAGES, image_locations)
       .putString(ChatGPTMessageWorker.DATA_CHANNEL_ID, channelId)
       .putString(ChatGPTMessageWorker.DATA_LAST_MESSAGE, lastMessage?.text.orEmpty())
       .build()

@@ -41,6 +41,8 @@ moshi="1.15.1"
 spotless = "6.7.0"
 snitcher = "1.0.3"
 firebaseBom = "33.1.2"
+hutoolAll = "5.8.28"
+kotlinStdlib = "2.0.0"
 
 [libraries]
 stream-client = { group = "io.getstream", name = "stream-chat-android-client", version.ref = "streamChatSDK" }
@@ -101,6 +103,9 @@ firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 spotless-gradlePlugin = { group = "com.diffplug.spotless", name = "spotless-plugin-gradle", version.ref = "spotless" }
+
+hutool-all = { module = "cn.hutool:hutool-all", version.ref = "hutoolAll" }
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlinStdlib" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

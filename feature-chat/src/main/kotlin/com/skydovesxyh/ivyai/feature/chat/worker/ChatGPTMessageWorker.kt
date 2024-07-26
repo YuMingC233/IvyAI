@@ -21,6 +21,8 @@ import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.Data
 import androidx.work.WorkerParameters
+import cn.hutool.json.JSONUtil
+import com.skydoves.chatgpt.feature.chat.worker.ClientUploadUtils
 import com.skydovesxyh.ivyai.core.data.repository.GPTMessageRepository
 import com.skydovesxyh.ivyai.core.model.GPTMessage
 import com.skydovesxyh.ivyai.core.model.network.GPTChatRequest
@@ -28,6 +30,8 @@ import com.skydovesxyh.ivyai.feature.chat.di.ChatEntryPoint
 import com.skydoves.sandwich.getOrThrow
 import com.skydoves.sandwich.isSuccess
 import com.skydoves.sandwich.messageOrNull
+import com.skydovesxyh.ivyai.core.model.Content
+import com.skydovesxyh.ivyai.core.model.ImageUrl
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import io.getstream.chat.android.client.ChatClient
@@ -53,23 +57,55 @@ internal class ChatGPTMessageWorker @AssistedInject constructor(
     val text = workerParams.inputData.getString(DATA_TEXT) ?: return Result.failure()
     val channelId = workerParams.inputData.getString(DATA_CHANNEL_ID) ?: return Result.failure()
     val lastMessage = workerParams.inputData.getString(DATA_LAST_MESSAGE)
+    val ImageURLlist = workerParams.inputData.getStringArray(DATA_IMAGES)
 
     val messages: MutableList<GPTMessage> = mutableListOf()
     if (lastMessage != null) {
       messages.add(
         GPTMessage(
           role = "assistant",
-          content = lastMessage
+          content =  listOf(
+            Content(
+              type = "text",
+              text = lastMessage
+            )
+          )
         )
       )
     }
-    messages.add(
-      GPTMessage(
-        role = "user",
-        content = text
-      )
-    )
 
+    if (ImageURLlist != null && ImageURLlist[0] != null) {
+      val imgUploadedList = mutableListOf<String>()
+      ImageURLlist.forEach {
+        val fileName = it.substringAfterLast("/")
+        val filePath = it
+        val url = "https://ibed.cws-aizc.online/api/1/upload"
+        val response = ClientUploadUtils().uploadImage(url, filePath, fileName)
+        val jo = JSONUtil.parseObj(response)
+        val fileInfo = JSONUtil.parseObj(jo.getStr("image")).getJSONObject("image")
+        imgUploadedList.add(fileInfo.getStr("url"))
+      }
+      val contentList = mutableListOf<Content>().apply {
+        add(Content(type = "text", text = text))
+        imgUploadedList.forEach { url ->
+          add(Content(type = "image_url", imageUrl = ImageUrl(url,ImageUrl.DETAIL_HIGH)))
+        }
+      }
+//      val contentList = mutableListOf(Content(type = "image_url", imageUrl = ImageUrl(resp,"low")))
+      messages.add(GPTMessage(role = "user", content = contentList))
+    } else {
+      messages.add(
+        GPTMessage(
+          role = "user",
+          content = listOf(
+            Content(
+              type = "text",
+              text = text
+            )
+          )
+        )
+      )
+    }
     val request = GPTChatRequest(
       model = "gpt-4o-mini",
       messages = messages
@@ -113,6 +149,7 @@ internal class ChatGPTMessageWorker @AssistedInject constructor(
 
   companion object {
     const val DATA_TEXT = "DATA_TEXT"
+    const val DATA_IMAGES = "DATA_IMAGES"
     const val DATA_CHANNEL_ID = "DATA_CHANNEL_ID"
     const val DATA_MESSAGE_ID = "DATA_PARENT_ID"
     const val DATA_LAST_MESSAGE = "DATA_LAST_MESSAGE"
