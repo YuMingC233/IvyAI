@@ -254,7 +254,7 @@ fun ChatGPTMessages(
                   user = messageState.message.user.copy(
                     id = chatGPTUser.id,
                 //  name = chatGPTUser.name,
-                    name = "Assistant",
+                    name = "Ivy",
                     image = chatGPTUser.image
                   )
                 ),

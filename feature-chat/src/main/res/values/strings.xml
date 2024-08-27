@@ -16,7 +16,7 @@
 -->
 <resources>
   <string name="stream_top_bar">Stream</string>
-  <string name="toast_success_create_channel">A random ChatGPT channel is created!</string>
-  <string name="toast_hello">Hi, I\'m OpenAI\'s ChatGPT with Stream SDK. Ask me anything!</string>
+  <string name="toast_success_create_channel">随机的聊天频道已经被创建!</string>
+  <string name="toast_hello">今天又有什么好玩的事情等着我呢?</string>
   <string name="toast_error">For more details, check out OpenAI API guidelines: https://platform.openai.com/docs/guides/rate-limits?context=tier-free</string>
 </resources>
