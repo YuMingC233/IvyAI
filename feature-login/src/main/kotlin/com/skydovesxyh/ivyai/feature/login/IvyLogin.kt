@@ -25,7 +25,7 @@ import androidx.compose.ui.Modifier
 import com.skydovesxyh.ivyai.core.designsystem.theme.BACKGROUND900
 
 @Composable
-fun ChatGPTLogin(
+fun IvyLogin(
 ) {
   Box(
     modifier = Modifier

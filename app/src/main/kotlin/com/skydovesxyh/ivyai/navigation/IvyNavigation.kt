@@ -20,7 +20,6 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material.ripple.RippleAlpha
 import androidx.compose.material.ripple.RippleTheme
@@ -29,17 +28,13 @@ import androidx.compose.material3.LocalAbsoluteTonalElevation
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemColors
 import androidx.compose.material3.NavigationBarItemDefaults
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -48,14 +43,12 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.skydovesxyh.ivyai.R
-import com.skydovesxyh.ivyai.core.designsystem.component.ChatGPTSmallTopBar
 import com.skydovesxyh.ivyai.core.navigation.AppComposeNavigator
 import com.skydovesxyh.ivyai.core.navigation.ChatGPTScreens
 import com.skydovesxyh.ivyai.core.navigation.ChatGPTScreens.Companion.argument_channel_id
 import com.skydovesxyh.ivyai.feature.chat.channels.ChatGPTChannels
 import com.skydovesxyh.ivyai.feature.chat.messages.ChatGPTMessages
-import com.skydovesxyh.ivyai.feature.login.ChatGPTLogin
+import com.skydovesxyh.ivyai.feature.mine.ChatGPTMine
 import edu.hnjd.hyx.ivyai.navigation.items
 
 
@@ -70,7 +63,7 @@ fun NavGraphBuilder.ivyHomeNavigation(
   }
 
   composable(route = ChatGPTScreens.Login.name) {
-    ChatGPTLogin()
+    ChatGPTMine()
   }
 
   composable(
