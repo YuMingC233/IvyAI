@@ -36,6 +36,54 @@ internal class ChatGPTMessageWorker @AssistedInject constructor(
   @Inject
   internal lateinit var chatClient: ChatClient
 
+  val globalMessage: MutableList<GPTMessage> = mutableListOf(
+    GPTMessage(
+      role = "system",
+      content = listOf(
+        Content(
+          type = "text",
+          text = "你是一位。"
+        )
+      )
+    ),
+    GPTMessage(
+      role = "user",
+      content = listOf(
+        Content(
+          type = "text",
+          text = "请不要----。如果你知晓，请回复“了解。”。"
+        )
+      )
+    ),
+    GPTMessage(
+      role = "assistant",
+      content = listOf(
+        Content(
+          type = "text",
+          text = "了解。"
+        )
+      )
+    ),
+    GPTMessage(
+      role = "user",
+      content = listOf(
+        Content(
+          type = "text",
+          text = "如果你知晓我的意思，请回复“好的。”"
+        )
+      )
+    ),
+    GPTMessage(
+      role = "assistant",
+      content = listOf(
+        Content(
+          type = "text",
+          text = "好的。"
+        )
+      )
+    )
+  )
+
   override suspend fun doWork(): Result {
     ChatEntryPoint.resolve(context).inject(this)
 
@@ -43,21 +91,6 @@ internal class ChatGPTMessageWorker @AssistedInject constructor(
     val channelId = workerParams.inputData.getString(DATA_CHANNEL_ID) ?: return Result.failure()
     val lastMessage = workerParams.inputData.getString(DATA_LAST_MESSAGE)
     val ImageURLlist = workerParams.inputData.getStringArray(DATA_IMAGES)
-
-    val messages: MutableList<GPTMessage> = mutableListOf()
-    if (lastMessage != null) {
-      messages.add(
-        GPTMessage(
-          role = "assistant",
-          content =  listOf(
-            Content(
-              type = "text",
-              text = lastMessage
-            )
-          )
-        )
-      )
-    }
 
     if (ImageURLlist != null && ImageURLlist[0] != null) {
       val imgUploadedList = mutableListOf<String>()
@@ -76,10 +109,9 @@ internal class ChatGPTMessageWorker @AssistedInject constructor(
           add(Content(type = "image_url", imageUrl = ImageUrl(url,ImageUrl.DETAIL_HIGH)))
         }
       }
-//      val contentList = mutableListOf(Content(type = "image_url", imageUrl = ImageUrl(resp,"low")))
-      messages.add(GPTMessage(role = "user", content = contentList))
+      globalMessage.add(GPTMessage(role = "user", content = contentList))
     } else {
-      messages.add(
+      globalMessage.add(
         GPTMessage(
           role = "user",
           content = listOf(
@@ -93,7 +125,7 @@ internal class ChatGPTMessageWorker @AssistedInject constructor(
     }
     val request = GPTChatRequest(
       model = "gpt-4o-mini",
-      messages = messages
+      messages = globalMessage
     )
     val response = repository.sendMessage(request)
     return if (response.isSuccess) {
