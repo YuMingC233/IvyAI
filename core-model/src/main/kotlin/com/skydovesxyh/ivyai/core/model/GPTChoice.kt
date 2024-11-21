@@ -1,7 +1,7 @@
 
 package com.skydovesxyh.ivyai.core.model
 
-import com.skydoves.chatgpt.core.model.GPTMessageResponse
+import com.skydovesxyh.ivyai.core.model.GPTMessageResponse
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 

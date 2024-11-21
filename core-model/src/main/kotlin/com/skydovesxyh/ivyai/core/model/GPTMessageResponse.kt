@@ -1,4 +1,4 @@
-package com.skydoves.chatgpt.core.model
+package com.skydovesxyh.ivyai.core.model
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass

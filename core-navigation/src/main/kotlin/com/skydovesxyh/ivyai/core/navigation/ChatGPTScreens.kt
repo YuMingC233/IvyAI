@@ -11,6 +11,9 @@ sealed class ChatGPTScreens(
 ) {
   val name: String = route.appendArguments(navArguments)
 
+  // mine screen
+  data object Mine : ChatGPTScreens("mine")
+
   // login screen
   data object Login : ChatGPTScreens("login")
 

@@ -38,7 +38,7 @@ fun IvyNavHost(
     },
      */
     bottomBar = {
-      if (currentRoute == ChatGPTScreens.Channels.name || currentRoute == ChatGPTScreens.Login.name) {
+      if (currentRoute == ChatGPTScreens.Channels.name || currentRoute == ChatGPTScreens.Mine.name) {
         BottomNavigationBar(navHostController)
       }
     }

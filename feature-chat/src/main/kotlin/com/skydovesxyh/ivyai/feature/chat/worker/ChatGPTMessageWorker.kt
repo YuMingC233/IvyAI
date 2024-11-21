@@ -7,7 +7,6 @@ import androidx.work.CoroutineWorker
 import androidx.work.Data
 import androidx.work.WorkerParameters
 import cn.hutool.json.JSONUtil
-import com.skydoves.chatgpt.feature.chat.worker.ClientUploadUtils
 import com.skydovesxyh.ivyai.core.data.repository.GPTMessageRepository
 import com.skydovesxyh.ivyai.core.model.GPTMessage
 import com.skydovesxyh.ivyai.core.model.network.GPTChatRequest

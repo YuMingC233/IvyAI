@@ -33,8 +33,8 @@ import com.skydovesxyh.ivyai.core.navigation.ChatGPTScreens
 import com.skydovesxyh.ivyai.core.navigation.ChatGPTScreens.Companion.argument_channel_id
 import com.skydovesxyh.ivyai.feature.chat.channels.ChatGPTChannels
 import com.skydovesxyh.ivyai.feature.chat.messages.ChatGPTMessages
+import com.skydovesxyh.ivyai.feature.login.IvyLogin
 import com.skydovesxyh.ivyai.feature.mine.ChatGPTMine
-import edu.hnjd.hyx.ivyai.navigation.items
 
 
 fun NavGraphBuilder.ivyHomeNavigation(
@@ -47,8 +47,12 @@ fun NavGraphBuilder.ivyHomeNavigation(
     )
   }
 
+  composable(route = ChatGPTScreens.Mine.name) {
+    ChatGPTMine(composeNavigator = composeNavigator)
+  }
+
   composable(route = ChatGPTScreens.Login.name) {
-    ChatGPTMine()
+    IvyLogin(composeNavigator = composeNavigator)
   }
 
   composable(
