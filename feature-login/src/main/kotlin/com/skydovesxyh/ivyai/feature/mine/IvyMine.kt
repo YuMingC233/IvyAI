@@ -18,10 +18,8 @@ package com.skydovesxyh.ivyai.feature.mine
 
 import android.content.Context
 import android.widget.Toast
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -29,42 +27,33 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBalanceWallet
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.Receipt
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.material.icons.filled.SupportAgent
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.SegmentedButtonDefaults.Icon
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
+import com.skydovesxyh.ivyai.core.navigation.AppComposeNavigator
+import com.skydovesxyh.ivyai.core.navigation.ChatGPTScreens
 
 
 @Composable
-fun ChatGPTMine() {
+fun ChatGPTMine(
+  composeNavigator: AppComposeNavigator,
+) {
   val context: Context = LocalContext.current;
   Box(
     modifier = Modifier
@@ -79,7 +68,7 @@ fun ChatGPTMine() {
       Box(
         modifier = Modifier
           .fillMaxWidth()
-          .background(Color(0xFFFFA500)) // 橙色背景
+          .background(Color(0xFF005dfc)) // 蓝色背景
           .padding(30.dp, 50.dp, 30.dp, 50.dp)
       ) {
         Row(
@@ -99,6 +88,11 @@ fun ChatGPTMine() {
           */
           Column(
             modifier = Modifier.weight(1f)
+              .clickable {
+                // 跳转到登录页面
+                composeNavigator.navigate(ChatGPTScreens.Login.route)
+              }
+            ,
           ) {
             // 用户名
             Text(text = "尚未登录", fontSize = 18.sp, color = Color.White)
@@ -108,7 +102,7 @@ fun ChatGPTMine() {
             onClick = { /*退出登录逻辑*/ },
             modifier = Modifier.align(Alignment.CenterVertically)
           ) {
-            Text(text = "退出登录", color = Color.White)
+//            Text(text = "退出登录", color = Color.White)
           }
         }
       }
@@ -142,9 +136,11 @@ fun ChatGPTMine() {
       ) {
         item {
           MenuItem(icon = Icons.Default.FavoriteBorder, text = "偏好管理", router = "a", context)
+          HorizontalDivider(thickness = 2.dp)
         }
         item {
           MenuItem(icon = Icons.Default.AccountBalanceWallet, text = "提示词管理", router = "a", context)
+          HorizontalDivider(thickness = 2.dp)
         }
         item {
           MenuItem(icon = Icons.Default.Settings, text = "设置", router = "a", context)
@@ -159,12 +155,12 @@ fun MenuItem(icon: ImageVector, text: String, router: String, context: Context) 
   Row(
     modifier = Modifier
       .fillMaxWidth()
-      .padding(vertical = 16.dp)
+      .height(62.dp)
+      .padding(vertical = 8.dp)
       .clickable {
-        Toast.makeText(context, "点击成功", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
       },
     verticalAlignment = Alignment.CenterVertically,
-
   ) {
     androidx.compose.material.Icon(
       imageVector = icon,
