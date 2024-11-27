@@ -46,6 +46,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.skydovesxyh.ivyai.core.data.session.user
 import com.skydovesxyh.ivyai.core.navigation.AppComposeNavigator
 import com.skydovesxyh.ivyai.core.navigation.ChatGPTScreens
 import kotlinx.coroutines.delay
@@ -139,6 +140,9 @@ fun IvyLogin(
         snackbarHostState.showSnackbar("登录成功！")
         isButtonEnabled.value = true
         isLoading.value = false
+        // 将用户名和密码保存到全局对象中
+        user.login(userName.value, passWord.value)
+
         // 跳转到主页
         composeNavigator.navigate(ChatGPTScreens.Channels.route)
       }

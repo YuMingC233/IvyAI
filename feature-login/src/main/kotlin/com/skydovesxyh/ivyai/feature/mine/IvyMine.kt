@@ -46,9 +46,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.skydovesxyh.ivyai.core.data.session.user
 import com.skydovesxyh.ivyai.core.navigation.AppComposeNavigator
 import com.skydovesxyh.ivyai.core.navigation.ChatGPTScreens
-
 
 @Composable
 fun ChatGPTMine(
@@ -95,14 +95,24 @@ fun ChatGPTMine(
             ,
           ) {
             // 用户名
-            Text(text = "尚未登录", fontSize = 18.sp, color = Color.White)
+            val userName = user.userName
+            if (userName != null) {
+              Text(text = userName, fontSize = 18.sp, color = Color.White)
+            } else {
+              Text(text = "尚未登录", fontSize = 18.sp, color = Color.White)
+            }
           }
           // 退出登录按钮
           TextButton(
-            onClick = { /*退出登录逻辑*/ },
+            onClick = {
+              // 退出登录
+              user.logout()
+              Toast.makeText(context, "退出登录成功！", Toast.LENGTH_SHORT).show()
+              // 重新刷新整个App的状态以达到退出登录的效果
+            },
             modifier = Modifier.align(Alignment.CenterVertically)
           ) {
-//            Text(text = "退出登录", color = Color.White)
+            Text(text = "退出登录", color = Color.White)
           }
         }
       }
