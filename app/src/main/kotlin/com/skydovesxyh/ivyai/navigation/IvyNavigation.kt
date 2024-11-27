@@ -1,6 +1,7 @@
 
 package com.skydovesxyh.ivyai.navigation
 
+import android.content.Context
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -38,7 +39,8 @@ import com.skydovesxyh.ivyai.feature.mine.ChatGPTMine
 
 
 fun NavGraphBuilder.ivyHomeNavigation(
-  composeNavigator: AppComposeNavigator
+  composeNavigator: AppComposeNavigator,
+  context: Context
 ) {
   composable(route = ChatGPTScreens.Channels.name) {
     ChatGPTChannels(
@@ -52,7 +54,7 @@ fun NavGraphBuilder.ivyHomeNavigation(
   }
 
   composable(route = ChatGPTScreens.Login.name) {
-    IvyLogin(composeNavigator = composeNavigator)
+    IvyLogin(composeNavigator = composeNavigator, context = context)
   }
 
   composable(

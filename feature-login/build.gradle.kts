@@ -14,4 +14,7 @@ android {
 dependencies {
   implementation(libs.androidx.lifecycle.runtimeCompose)
   implementation(libs.androidx.lifecycle.viewModelCompose)
+
+  // work manager
+  implementation(libs.androidx.work.runtime.ktx.v271)
 }

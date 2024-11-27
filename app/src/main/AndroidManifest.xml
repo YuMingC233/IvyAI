@@ -17,7 +17,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:tools="http://schemas.android.com/tools">
 
+  <!-- 联网权限 -->
   <uses-permission android:name="android.permission.INTERNET" />
+  <!-- 发送通知权限  -->
+  <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
 
   <application
     android:name=".ChatGPTApp"

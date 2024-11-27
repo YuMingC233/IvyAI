@@ -172,6 +172,6 @@ internal class ChatGPTMessageWorker @AssistedInject constructor(
     const val DATA_SUCCESS = "DATA_SUCCESS"
     const val DATA_FAILURE = "DATA_FAILURE"
 
-    const val MESSAGE_EXTRA_CHAT_GPT = "ChatGPT"
+    const val MESSAGE_EXTRA_CHAT_GPT = "新对话"
   }
 }

@@ -49,7 +49,8 @@ fun IvyNavHost(
       modifier = Modifier.padding(padding)
     ) {
       ivyHomeNavigation(
-        composeNavigator = composeNavigator
+        composeNavigator = composeNavigator,
+        context = navHostController.context
       )
     }
   }

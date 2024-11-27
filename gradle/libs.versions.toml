@@ -43,8 +43,10 @@ snitcher = "1.0.3"
 firebaseBom = "33.1.2"
 hutoolAll = "5.8.28"
 kotlinStdlib = "2.0.0"
+workRuntimeKtx = "2.7.1"
 
 [libraries]
+androidx-work-runtime-ktx-v271 = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntimeKtx" }
 stream-client = { group = "io.getstream", name = "stream-chat-android-client", version.ref = "streamChatSDK" }
 stream-offline = { group = "io.getstream", name = "stream-chat-android-offline", version.ref = "streamChatSDK" }
 stream-compose = { group = "io.getstream", name = "stream-chat-android-compose", version.ref = "streamChatSDK" }

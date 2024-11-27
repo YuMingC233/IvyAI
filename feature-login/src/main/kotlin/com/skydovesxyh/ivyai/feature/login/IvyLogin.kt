@@ -16,6 +16,16 @@
 
 package com.skydovesxyh.ivyai.feature.login
 
+import android.Manifest
+import android.app.Activity
+import android.app.ActivityManager
+import android.app.NotificationManager
+import android.content.Context
+import android.content.Intent
+import android.os.Build
+import android.provider.Settings
+import android.view.inputmethod.InputMethodManager
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -46,14 +56,18 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.ActivityCompat
 import com.skydovesxyh.ivyai.core.data.session.user
 import com.skydovesxyh.ivyai.core.navigation.AppComposeNavigator
 import com.skydovesxyh.ivyai.core.navigation.ChatGPTScreens
+import com.skydovesxyh.ivyai.feature.worker.NotificationHelper
 import kotlinx.coroutines.delay
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun IvyLogin(
   composeNavigator: AppComposeNavigator,
+  context: Context // 需要传入 Context，用于发送通知
 ) {
   val userName = remember { mutableStateOf("") }
   val passWord = remember { mutableStateOf("") }
@@ -112,6 +126,16 @@ fun IvyLogin(
         ) {
           Button(
             onClick = {
+              // 收起键盘
+              val inputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+              inputMethodManager.hideSoftInputFromWindow((context as Activity).currentFocus?.windowToken, 0)
+
+              // 检查用户的通知权限，如果没有权限则索取权限
+              ActivityCompat.requestPermissions(
+                context, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 0
+              )
+
+              // 检查表单状态
               formState.value = userName.value.isEmpty() || passWord.value.isEmpty()
               if (formState.value.not()) {
                 // 禁用当前按钮并显示加载指示器
@@ -136,12 +160,33 @@ fun IvyLogin(
     }
     if (!isButtonEnabled.value) {
       LaunchedEffect(Unit) {
-        delay(2000)
         snackbarHostState.showSnackbar("登录成功！")
+
         isButtonEnabled.value = true
         isLoading.value = false
         // 将用户名和密码保存到全局对象中
         user.login(userName.value, passWord.value)
+
+        // 创建通知助手对象
+        val notificationHelper = NotificationHelper(context)
+
+        // 启动随机事件，延迟 5 到 30 秒后发送通知
+//        val randomDelay = (5_000..30_000).random().toLong() // 5 到 30 秒
+//        delay(randomDelay)
+//
+//        // 检查 App 是否在后台（需要实现）
+//        if (isAppInBackground(context)) {
+//          notificationHelper.sendNotification(
+//            "你好？！",
+//            "有人在吗？😏😏😏"
+//          )
+//        }
+
+        // TODO 可以使用API自定义通知内容
+        notificationHelper.sendNotification(
+          "你好？！",
+          "有人在吗？😏😏😏"
+        )
 
         // 跳转到主页
         composeNavigator.navigate(ChatGPTScreens.Channels.route)
@@ -160,4 +205,14 @@ fun IvyLogin(
     }
     SnackbarHost(hostState = snackbarHostState)
   }
+}
+
+/**
+ * 检查 App 是否在后台
+ */
+fun isAppInBackground(context: Context): Boolean {
+  val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+  val runningAppProcesses = activityManager.runningAppProcesses ?: return true
+  val appProcess = runningAppProcesses.firstOrNull { it.processName == context.packageName }
+  return appProcess?.importance != ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND
 }
