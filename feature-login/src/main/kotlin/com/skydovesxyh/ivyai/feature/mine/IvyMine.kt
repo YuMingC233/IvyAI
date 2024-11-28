@@ -34,6 +34,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBalanceWallet
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Memory
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
@@ -47,14 +48,18 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.skydovesxyh.ivyai.core.data.session.user
+import com.skydovesxyh.ivyai.core.data.session.user.userName
 import com.skydovesxyh.ivyai.core.navigation.AppComposeNavigator
 import com.skydovesxyh.ivyai.core.navigation.ChatGPTScreens
+
+var globalNavigator: AppComposeNavigator? = null
 
 @Composable
 fun ChatGPTMine(
   composeNavigator: AppComposeNavigator,
 ) {
   val context: Context = LocalContext.current;
+  globalNavigator = composeNavigator
   Box(
     modifier = Modifier
       .fillMaxSize()
@@ -90,7 +95,7 @@ fun ChatGPTMine(
             modifier = Modifier.weight(1f)
               .clickable {
                 // 跳转到登录页面
-                composeNavigator.navigate(ChatGPTScreens.Login.route)
+                globalNavigator!!.navigate(ChatGPTScreens.Login.route)
               }
             ,
           ) {
@@ -145,7 +150,11 @@ fun ChatGPTMine(
         contentPadding = PaddingValues(16.dp)
       ) {
         item {
-          MenuItem(icon = Icons.Default.FavoriteBorder, text = "偏好管理", router = "a", context)
+          MenuItem(icon = Icons.Default.FavoriteBorder, text = "偏好管理", router = ChatGPTScreens.Prefer.route, context)
+          HorizontalDivider(thickness = 2.dp)
+        }
+        item {
+          MenuItem(icon = Icons.Default.Memory, text = "记忆管理", router = "a", context)
           HorizontalDivider(thickness = 2.dp)
         }
         item {
@@ -168,7 +177,12 @@ fun MenuItem(icon: ImageVector, text: String, router: String, context: Context) 
       .height(62.dp)
       .padding(vertical = 8.dp)
       .clickable {
-        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+        if (userName == null) {
+          Toast.makeText(context, "您尚未登录，请先登录。", Toast.LENGTH_SHORT).show()
+        } else {
+          // 跳转到指定页面
+          globalNavigator!!.navigate(router)
+        }
       },
     verticalAlignment = Alignment.CenterVertically,
   ) {

@@ -17,6 +17,9 @@ sealed class ChatGPTScreens(
   // login screen
   data object Login : ChatGPTScreens("login")
 
+  // Prefer screen
+  data object Prefer : ChatGPTScreens("prefer")
+
   // channel screen
   data object Channels : ChatGPTScreens("channels")
 
