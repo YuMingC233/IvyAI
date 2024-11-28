@@ -52,10 +52,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.colorspace.ColorSpaces
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.core.app.ActivityCompat
 import com.skydovesxyh.ivyai.core.data.session.user
 import com.skydovesxyh.ivyai.core.navigation.AppComposeNavigator
@@ -103,7 +107,7 @@ fun IvyLogin(
             isError = formState.value && userName.value.isEmpty(),
             label = { Text("用户名") },
             supportingText = { Text("请输入用户名", color = Color.White) },
-            modifier = Modifier.padding(8.dp),
+            modifier = Modifier.padding(8.dp)
           )
           // 密码输入框
           TextField(
@@ -160,8 +164,10 @@ fun IvyLogin(
     }
     if (!isButtonEnabled.value) {
       LaunchedEffect(Unit) {
-        snackbarHostState.showSnackbar("登录成功！")
+        val randomDelay = (1_000..5_000).random().toLong()
+        delay(randomDelay)
 
+        snackbarHostState.showSnackbar("登录成功！")
         isButtonEnabled.value = true
         isLoading.value = false
         // 将用户名和密码保存到全局对象中
@@ -171,16 +177,16 @@ fun IvyLogin(
         val notificationHelper = NotificationHelper(context)
 
         // 启动随机事件，延迟 5 到 30 秒后发送通知
-//        val randomDelay = (5_000..30_000).random().toLong() // 5 到 30 秒
-//        delay(randomDelay)
+//      val randomDelay = (5_000..30_000).random().toLong() // 5 到 30 秒
+//      delay(randomDelay)
 //
-//        // 检查 App 是否在后台（需要实现）
-//        if (isAppInBackground(context)) {
-//          notificationHelper.sendNotification(
-//            "你好？！",
-//            "有人在吗？😏😏😏"
-//          )
-//        }
+        // 检查 App 是否在后台（需要实现）
+//      if (isAppInBackground(context)) {
+//        notificationHelper.sendNotification(
+//          "你好？！",
+//          "有人在吗？😏😏😏"
+//        )
+//      }
 
         // TODO 可以使用API自定义通知内容
         notificationHelper.sendNotification(
@@ -205,14 +211,4 @@ fun IvyLogin(
     }
     SnackbarHost(hostState = snackbarHostState)
   }
-}
-
-/**
- * 检查 App 是否在后台
- */
-fun isAppInBackground(context: Context): Boolean {
-  val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-  val runningAppProcesses = activityManager.runningAppProcesses ?: return true
-  val appProcess = runningAppProcesses.firstOrNull { it.processName == context.packageName }
-  return appProcess?.importance != ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND
 }
