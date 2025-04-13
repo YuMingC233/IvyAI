@@ -190,8 +190,8 @@ fun IvyLogin(
 
         // TODO 可以使用API自定义通知内容
         notificationHelper.sendNotification(
-          "你好？！",
-          "有人在吗？😏😏😏"
+          "生日快乐，用户2025~ 🥳🥳",
+          "今天打算吃生日蛋糕吗？"
         )
 
         // 跳转到主页

@@ -123,7 +123,7 @@ internal class ChatGPTMessageWorker @AssistedInject constructor(
       )
     }
     val request = GPTChatRequest(
-      model = "gpt-4o-mini",
+      model = "gpt-4o",
       messages = globalMessage
     )
     val response = repository.sendMessage(request)

@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import com.skydovesxyh.ivyai.feature.login.R
 import kotlin.random.Random
 
 class NotificationHelper(private val context: Context) {
@@ -32,7 +33,7 @@ class NotificationHelper(private val context: Context) {
 
   fun sendNotification(title: String, message: String) {
     val notification = NotificationCompat.Builder(context, channelId)
-      .setSmallIcon(android.R.drawable.ic_dialog_info)
+      .setSmallIcon(R.drawable.logo)
       .setContentTitle(title)
       .setContentText(message)
       .setPriority(NotificationCompat.PRIORITY_DEFAULT)
